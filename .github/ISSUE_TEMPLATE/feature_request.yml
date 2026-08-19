@@ -1,0 +1,31 @@
+name: Feature request
+description: Suggest an addition or change to the SDK.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: Describe the use case rather than the solution you have in mind.
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would you like the SDK to do?
+    validations:
+      required: true
+
+  - type: input
+    id: endpoint
+    attributes:
+      label: Related API endpoint
+      description: If this is about API coverage, which endpoint?
+      placeholder: "POST /registration"
+
+  - type: textarea
+    id: workaround
+    attributes:
+      label: Current workaround
+      description: How are you handling this today?

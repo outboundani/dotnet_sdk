@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: API documentation
+    url: https://docs.outboundiq.cloud
+    about: Reference for the underlying HTTP API.
+  - name: Account or API support
+    url: https://outboundiq.cloud
+    about: API keys, permissions, billing, and data questions. Not SDK bugs.
+  - name: Report a security vulnerability
+    url: https://github.com/outboundani/dotnet_sdk/security/advisories/new
+    about: Please report vulnerabilities privately, not as a public issue.

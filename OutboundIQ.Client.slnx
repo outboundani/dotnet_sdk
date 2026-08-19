@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/OutboundIQ.Client/OutboundIQ.Client.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/OutboundIQ.Client.Tests/OutboundIQ.Client.Tests.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/OutboundIQ.Client.Samples/OutboundIQ.Client.Samples.csproj" />
+  </Folder>
+</Solution>

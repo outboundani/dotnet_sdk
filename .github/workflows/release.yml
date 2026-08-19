@@ -1,0 +1,62 @@
+name: Release
+
+on:
+  push:
+    tags: ['v*.*.*']
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    # Must match the Environment field on the nuget.org trusted publishing policy.
+    environment: release
+
+    permissions:
+      contents: write   # create the GitHub release
+      id-token: write   # request the OIDC token; without this NuGet/login silently fails
+
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      - run: dotnet restore --locked-mode
+      - run: dotnet build -c Release --no-restore
+      - run: dotnet test -c Release --no-build
+      - run: dotnet pack -c Release --no-build
+
+      # The issued key is valid for one hour, so this runs immediately before the push rather
+      # than at the top of the job.
+      - name: NuGet login (OIDC to short-lived API key)
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user: ${{ secrets.NUGET_USER }}   # nuget.org profile name, not an email address
+
+      - name: Push package and symbols
+        run: >
+          dotnet nuget push "artifacts/package/release/*.nupkg"
+          --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: artifacts/package/release/*
+          generate_release_notes: true
+          prerelease: ${{ contains(github.ref_name, '-') }}

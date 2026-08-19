@@ -1,0 +1,64 @@
+name: Bug report
+description: Something in the SDK does not behave as documented.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please do not include API keys, webhook secrets, or customer phone numbers.
+
+  - type: input
+    id: version
+    attributes:
+      label: SDK version
+      placeholder: "0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: framework
+    attributes:
+      label: Target framework
+      placeholder: "net8.0"
+    validations:
+      required: true
+
+  - type: input
+    id: os
+    attributes:
+      label: Operating system
+      placeholder: "Ubuntu 24.04 / Windows 11 / macOS 15"
+    validations:
+      required: true
+
+  - type: input
+    id: request-id
+    attributes:
+      label: Request ID
+      description: >
+        The `RequestId` on the thrown exception, if the problem involved an API call. This
+        identifies the exact request in outboundIQ's logs and is the single most useful thing you
+        can include.
+      placeholder: "req-abc-123"
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: What actually happened
+      description: Include the full exception and stack trace if there was one.
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: The smallest snippet that shows the problem.
+      render: csharp

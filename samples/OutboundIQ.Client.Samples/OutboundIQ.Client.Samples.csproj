@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>OutboundIQ.Samples</RootNamespace>
+    <!-- Doubles as the Native AOT smoke target: publishing this proves the library carries no
+         trim or AOT warnings. -->
+    <PublishAot>false</PublishAot>
+    <InvariantGlobalization>true</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OutboundIQ.Client/OutboundIQ.Client.csproj" />
+  </ItemGroup>
+
+</Project>

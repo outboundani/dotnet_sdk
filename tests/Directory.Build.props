@@ -1,0 +1,19 @@
+<Project>
+
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <EnablePackageValidation>false</EnablePackageValidation>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <!-- CA1707: xUnit's Method_does_thing naming is the convention here.
+         CA1515: test classes must be public for the runner to discover them.
+         CA2007: ConfigureAwait is noise in tests, which have no synchronization context. -->
+    <NoWarn>$(NoWarn);CA1707;CA1515;CA2007;CA1859;xUnit1051</NoWarn>
+    <!-- xUnit1051 wants TestContext.Current.CancellationToken threaded through every call.
+         Every request here goes through an in-memory stub transport and cannot block; the
+         timeout tests drive their own tokens deliberately. Threading it through ~60 call
+         sites would cost more in readability than it buys in responsiveness. -->
+  </PropertyGroup>
+
+</Project>

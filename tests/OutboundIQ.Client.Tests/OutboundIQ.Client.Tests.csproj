@@ -1,0 +1,40 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- All three TFMs are exercised for real. Several bugs this suite guards against are
+         version-specific: [JsonExtensionData] + init breaks on .NET 9+, and System.Text.Json
+         source-generator output differs across versions. -->
+    <TargetFrameworks>$(OutboundIQTargetFrameworks)</TargetFrameworks>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>OutboundIQ.Tests</RootNamespace>
+    <UseMicrosoftTestingPlatformRunner>true</UseMicrosoftTestingPlatformRunner>
+    <TestingPlatformDotnetTestSupport>true</TestingPlatformDotnetTestSupport>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Microsoft.Testing.Extensions.CodeCoverage" />
+    <PackageReference Include="xunit.v3" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/OutboundIQ.Client/OutboundIQ.Client.csproj" />
+  </ItemGroup>
+
+  <!-- Mirrors the TypeScript SDK's "VERSION matches package.json" assertion: MinVer's computed
+       version is injected here so a test can compare it against the value the SDK reports and
+       the one it actually puts on the wire.
+
+       This must run from a target that depends on MinVer. A plain ItemGroup is evaluated before
+       MinVer computes $(Version) and would capture the 1.0.0 placeholder instead. -->
+  <Target Name="AddExpectedSdkVersion" DependsOnTargets="MinVer" BeforeTargets="GetAssemblyAttributes">
+    <ItemGroup>
+      <AssemblyAttribute Include="System.Reflection.AssemblyMetadata">
+        <_Parameter1>ExpectedSdkVersion</_Parameter1>
+        <_Parameter2>$(Version)</_Parameter2>
+      </AssemblyAttribute>
+    </ItemGroup>
+  </Target>
+
+</Project>

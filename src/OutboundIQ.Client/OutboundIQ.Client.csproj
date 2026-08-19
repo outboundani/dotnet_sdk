@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFrameworks>$(OutboundIQTargetFrameworks)</TargetFrameworks>
+    <AssemblyName>OutboundIQ.Client</AssemblyName>
+    <RootNamespace>OutboundIQ</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Package">
+    <PackageId>OutboundIQ.Client</PackageId>
+    <Description>The official .NET SDK for the outboundIQ platform. Typed clients for the Assignment, Dials, Custom Dialer Integration, ANI Planner, NRM, and Live Feed APIs, plus webhook signature verification. Zero dependencies, trim- and AOT-compatible.</Description>
+    <PackageTags>outboundiq;outboundani;ani;caller-id;dialer;telephony;contact-center;nrm;sdk;api-client;webhooks</PackageTags>
+    <!-- Uncomment once 0.1.0 is live on nuget.org, so every later release is checked for
+         binary-breaking changes against it. -->
+    <!-- <PackageValidationBaselineVersion>0.1.0</PackageValidationBaselineVersion> -->
+  </PropertyGroup>
+
+  <PropertyGroup Label="Trimming and AOT">
+    <!-- Implies IsTrimmable and turns on the trim/AOT/single-file analyzers on net8.0+.
+         Held true by the source-generated JSON context; there are no suppressions. -->
+    <IsAotCompatible>true</IsAotCompatible>
+  </PropertyGroup>
+
+  <!-- The icon is an external brand asset. Packing stays correct whether or not it is present,
+       and picks it up automatically once it is added. -->
+  <PropertyGroup Condition="Exists('$(MSBuildThisFileDirectory)../../assets/icon.png')">
+    <PackageIcon>icon.png</PackageIcon>
+  </PropertyGroup>
+
+  <!-- These must live here, not in Directory.Build.props: props is imported before the csproj
+       body, so an IsPackable-conditioned item group there would silently misfire. -->
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)../../README.md" Pack="true" PackagePath="\" Visible="false" />
+    <None Include="$(MSBuildThisFileDirectory)../../assets/icon.png" Pack="true" PackagePath="\" Visible="false"
+          Condition="Exists('$(MSBuildThisFileDirectory)../../assets/icon.png')" />
+  </ItemGroup>
+
+</Project>
