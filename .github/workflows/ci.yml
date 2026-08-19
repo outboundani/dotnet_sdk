@@ -97,10 +97,13 @@ jobs:
           grep -q 'commit="[0-9a-f]\{40\}"' <<<"$nuspec" \
             || { echo "::error::repository commit missing; SourceLink did not run"; exit 1; }
 
+      # IconMustBeSet is excluded because assets/icon.png is still awaiting a brand asset.
+      # The csproj picks the icon up automatically once it exists; drop --excluded-rules then.
       - name: Validate package metadata
         run: |
           dotnet tool install --global Meziantou.Framework.NuGetPackageValidation.Tool
-          meziantou.validate-nuget-package artifacts/package/release/*.nupkg
+          meziantou.validate-nuget-package artifacts/package/release/*.nupkg \
+            --excluded-rules IconMustBeSet
 
       - uses: actions/upload-artifact@v7
         with:
