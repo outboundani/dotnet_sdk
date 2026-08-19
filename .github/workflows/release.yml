@@ -34,7 +34,7 @@ jobs:
             9.0.x
             10.0.x
 
-      - run: dotnet restore --locked-mode
+      - run: dotnet restore
       - run: dotnet build -c Release --no-restore
       - run: dotnet test -c Release --no-build
       - run: dotnet pack -c Release --no-build

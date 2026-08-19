@@ -38,9 +38,9 @@ jobs:
             9.0.x
             10.0.x
           cache: true
-          cache-dependency-path: '**/packages.lock.json'
+          cache-dependency-path: '**/Directory.Packages.props'
 
-      - run: dotnet restore --locked-mode
+      - run: dotnet restore
       - run: dotnet build -c Release --no-restore
       - run: dotnet test -c Release --no-build
 
@@ -52,7 +52,7 @@ jobs:
       - uses: actions/setup-dotnet@v6
         with:
           dotnet-version: '10.0.x'
-      - run: dotnet restore --locked-mode
+      - run: dotnet restore
       - run: dotnet format --verify-no-changes --no-restore
 
   pack:
@@ -68,7 +68,7 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - run: dotnet restore --locked-mode
+      - run: dotnet restore
       - run: dotnet pack -c Release --no-restore
 
       - name: Verify package contents
